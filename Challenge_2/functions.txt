@@ -1,0 +1,49 @@
+1. curl https://httpbin.org
+
+2. curl https://httpbin.org/anything
+
+3. curl -X POST  -F 'name= fefi' -F 'edad=20' https://httpbin.org/anything
+
+4. curl -G -d 'value=panda' https://httpbin.org/anything
+
+5. curl www.google.com/robots.txt
+
+6. curl -H "User-Agent: elephant"  https://httpbin.org/anything
+
+7. curl -X DELETE https://httpbin.org/anything
+
+8. curl -v https://httpbin.org/anything
+
+9. curl -X POST https://httpbin.org/anything -d '{"value" : "panda"}' 
+
+10. curl -X POST https://httpbin.org/anything -H 'Content-Type: application/json' -d '{"value" : "panda"}' 
+
+11. curl https://httpbin.org/anything -H 'Accept-Encoding: gzip'
+    No entendí que debería darme cuenta, anduvo como supone.
+12. curl -X POST -H "Content-Type: application/json" -d @Desktop/PRUEBA.txt  https://httpbin.org/anything
+
+13. 
+save into img:
+curl -o output.png https://httpbin.org/image 
+
+get request:
+curl https://httpbin.org/image -H 'Accept: image/png'
+
+=
+curl https://httpbin.org/image -H 'Accept: image/png' --output ./output.png
+
+14. curl -X PUT https://httpbin.org/anything
+
+15. 
+En desktop
+curl https://httpbin.org/image/jpeg  --output ./output2.png
+
+16. error 301: el host ha sido capaz de comunicarse con el servidor pero que el recurso solicitado ha sido movido a otra dirección permanentemente
+
+17. curl -H 'panda:elephant' https://httpbin.org/anything
+
+18. curl -v https://httpbin.org/status/404 https://httpbin.org/status/200
+
+19. curl -u 'fefi:LightIt' https://httpbin.org/anything
+
+20. curl https://twitter.com -H 'Accept-Language: es-ES' --output ./output.txt 

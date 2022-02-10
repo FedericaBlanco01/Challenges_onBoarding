@@ -1,0 +1,19 @@
+[{
+    "First name": "Federica",
+    "Last name" : "Blanco",
+    "Email" : "federica@lightit.io",
+    "Roles" : ["Developer", "Student", "Programmer"]
+},
+{
+    "First name": "Denise",
+    "Last name" : "Appel",
+    "Email" : "denise@lightit.io",
+    "Roles" : ["Developer", "Student", "Programmer"]
+},
+{
+    "First name": "Martin",
+    "Last name" : "Gulla",
+    "Email" : "martin@lightit.io",
+    "Roles" : ["Developer", "Student", "Programmer"]
+}
+]
