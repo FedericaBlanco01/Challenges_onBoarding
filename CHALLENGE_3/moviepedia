@@ -4,13 +4,12 @@
 
 require 'vendor/autoload.php';
 
- 
-use Acme\showCommand;
+use Acme\ShowCommand;
 use Symfony\Component\Console\Application;
 
 $app = new Application('moviepedia Demo', '1.0');
 
-$app-> add(new showCommand());
+$app-> add(new ShowCommand());
 
 $app-> run();
 
