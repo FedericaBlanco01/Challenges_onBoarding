@@ -19,8 +19,11 @@ class RenderCommands extends Command {
         
         $table= new Table($output);
 
-        $table-> setRow(/*array de arrays, array con cada fila*/)
-            ->render();
+        foreach ($input as $line){
+             $table-> setRow(0, $line)
+                ->render();
+        }
     }
+
 
 }
