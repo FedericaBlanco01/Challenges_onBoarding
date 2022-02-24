@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Airline;
+use App\Models\Available;
+use App\Models\City;
+use App\Models\Flight;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +18,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $cities = City::factory(10)->create();
+        $airlines = Airline::factory(10)->create();
+
+        Flight::factory()->count(5)->sequence(fn ($sequence) => [
+            'departure_city_id' => $cities->random()->id,
+            'arrival_city_id' => $cities->random()->id,
+            'airline_id' => $airlines->random()->id,
+        ])->create();
     }
 }

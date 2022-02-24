@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\AirlineController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () {return view('home');});
+
+Route::get('/cities', [CityController::class, 'index']);
+
+Route::get('/airlines', [AirlineController::class, 'index']);
+Route::post('/deleteairline', [AirlineController::class, 'delete'])->name('deleteairline');
+
+Route::get('flights/{post:slug}', [FlightController::class, 'show']);
+
+Route::get('ajax-request', [AirlineController::class,'create']);
+Route::post('ajax-request', [AirlineController::class,'store']);
