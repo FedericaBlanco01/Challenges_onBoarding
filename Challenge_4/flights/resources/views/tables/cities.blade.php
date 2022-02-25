@@ -19,9 +19,10 @@
         </thead>
 
         <tbody class="block md:table-row-group">
-            @foreach ($content->toArray() as $key => $value)
+            @foreach ($content as $city)
+
                 <tr>
-                    @foreach ($value as $attribute => $data)
+                    @foreach ($city as $attribute => $data)
                         @if ($attribute == 'id' || $attribute == 'name')
                             <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                                 {{ $data }}
@@ -29,6 +30,12 @@
                         @endif
                     @endforeach
                     {{-- TO DO CALCULATE #ARRIVALS AND #DEPARTURES --}}
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                        {{ count($city['flights_as_arrival']) }}</td>
+
+                    <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                        {{ count($city['flights_as_departure']) }}</td>
+
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                         <button
                             class="bg-purple-400 hover:bg-purple-800 text-white py-1 px-2 border rounded-full">Edit</button>

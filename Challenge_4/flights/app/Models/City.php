@@ -9,12 +9,17 @@ class City extends Model
 {
     use HasFactory;
 
-    public function flight()
+    public function flightsAsDeparture()
     {
-        return $this->hasMany(Flight::class);
+        return $this->hasMany(Flight::class, 'departure_city_id');
     }
 
-    public function availableFlights()
+    public function flightsAsArrival()
+    {
+        return $this->hasMany(Flight::class, 'arrival_city_id');
+    }
+
+    public function availableAirline()
     {
         return $this->belongsToMany(Airline::class);
     }

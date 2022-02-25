@@ -9,7 +9,7 @@
                 </th>
                 <th class="bg-purple-400 p-2 text-white md:border md:border-grey-500 text-left block md:table-cell">Name
                 </th>
-                <th class="bg-purple-400 p-2 text-white md:border md:border-grey-500 text-left block md:table-cell">
+                <th class="bg-purple-400 p-2 text-white md:border md:border-grey-500 text-left block md:table-cell" width="40%">
                     Description</th>
                 <th class="bg-purple-400 p-2 text-white md:border md:border-grey-500 text-left block md:table-cell">
                     Number of flights operated</th>
