@@ -21,7 +21,6 @@ Route::get('/cities', [CityController::class, 'index']);
 
 Route::post('/cities', [CityController::class, 'create'])->name('createcity');
 
-
 Route::get('/airlines', [AirlineController::class, 'index']);
 Route::get('flights/{post:slug}', [FlightController::class, 'show']);
 

@@ -36,15 +36,12 @@
                         {{ count($city['flights_as_departure']) }}</td>
 
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-
-                        <form method="POST" action="{{route('buttonscity')}}">
                             <button
-                                class="bg-purple-400 hover:bg-purple-800 text-white py-1 px-2 border rounded-full" name="editButton">
+                                class="bg-purple-400 hover:bg-purple-800 text-white py-1 px-2 border rounded-full">
                                 Edit</button>
                             <button
-                                class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 border rounded-full" name="deleteButton">
+                                class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 border rounded-full">
                                 Delete</button>
-                        </form>
 
                     </td>
                 </tr>

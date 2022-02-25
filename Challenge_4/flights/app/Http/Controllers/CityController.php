@@ -18,7 +18,10 @@ class CityController extends Controller
 
     public function create()
     {
-        DB::insert('insert into cities (name) values (?)', [$_REQUEST['input_city']]);
+        $invalid = City::existOrNull($_REQUEST['input_city']);
+        if (!$invalid) {
+            DB::insert('insert into cities (name) values (?)', [$_REQUEST['input_city']]);
+        }
         return view('tables.cities', [
             'content' => City::with(['flightsAsArrival', 'flightsAsDeparture'])->get()->toArray()
         ]);
@@ -28,6 +31,7 @@ class CityController extends Controller
     {
         if (isset($_REQUEST['deleteButton'])) {
             $deleted = DB::delete('delete from users');
+            dd($deleted);
         }
 
         return view('tables.cities', [
