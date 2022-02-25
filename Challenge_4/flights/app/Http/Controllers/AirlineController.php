@@ -15,4 +15,10 @@ class AirlineController extends Controller
         ]);
     }
 
+    // public function create(Request $request)
+    // {
+
+    //     DB::insert('insert into airlines (name, description) values (?, ?)', [$name, $description]);
+    // }
+
 }

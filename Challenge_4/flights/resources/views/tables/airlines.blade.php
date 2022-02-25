@@ -9,7 +9,8 @@
                 </th>
                 <th class="bg-purple-400 p-2 text-white md:border md:border-grey-500 text-left block md:table-cell">Name
                 </th>
-                <th class="bg-purple-400 p-2 text-white md:border md:border-grey-500 text-left block md:table-cell" width="40%">
+                <th class="bg-purple-400 p-2 text-white md:border md:border-grey-500 text-left block md:table-cell"
+                    width="40%">
                     Description</th>
                 <th class="bg-purple-400 p-2 text-white md:border md:border-grey-500 text-left block md:table-cell">
                     Number of flights operated</th>
@@ -45,56 +46,21 @@
     </table>
 
     {{-- -INPUT FIELD --}}
+    {{-- <form action="{{route('createairline')}}" method="POST">
+        @csrf
+        <div class="flex justify-center py-10">
+            <div class="mb-3 xl:w-96 ">
+                <label for="label_input_city" class="form-label inline-block mb-2 text-gray-700">Register a new
+                    airline!</label>
 
-    <div class="flex justify-center py-10">
-        <div class="mb-3 xl:w-96 ">
+                <x-inputfield :name="input_airline_name" :placeHolder="" />
 
-            <label for="label_input_airline" class="form-label inline-block mb-2 text-gray-700">Register a new
-                airline!</label>
-
-            <input type="text"
-                class="
-        form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                id="input_airline_name" placeholder="Name" />
-
-            <div class="py-3">
-
-                <input type="text"
-                    class="
-        form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    id="input_airline_name" placeholder="Description" />
+                    <input value="Submit" type="submit" />
 
             </div>
         </div>
-    </div>
+
+    </form> --}}
 
 
 </x-layout>

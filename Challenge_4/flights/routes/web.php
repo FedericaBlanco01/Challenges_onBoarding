@@ -19,10 +19,9 @@ Route::get('/', function () {return view('home');});
 
 Route::get('/cities', [CityController::class, 'index']);
 
-Route::get('/airlines', [AirlineController::class, 'index']);
-Route::post('/deleteairline', [AirlineController::class, 'delete'])->name('deleteairline');
+Route::post('/cities', [CityController::class, 'create'])->name('createcity');
 
+
+Route::get('/airlines', [AirlineController::class, 'index']);
 Route::get('flights/{post:slug}', [FlightController::class, 'show']);
 
-Route::get('ajax-request', [AirlineController::class,'create']);
-Route::post('ajax-request', [AirlineController::class,'store']);

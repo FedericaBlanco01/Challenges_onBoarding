@@ -12,8 +12,26 @@ class CityController extends Controller
     public function index()
     {
         return view('tables.cities', [
-            'content' => City::with(['flightsAsArrival','flightsAsDeparture'])->get()->toArray()
+            'content' => City::with(['flightsAsArrival', 'flightsAsDeparture'])->get()->toArray()
+        ]);
+    }
+
+    public function create()
+    {
+        DB::insert('insert into cities (name) values (?)', [$_REQUEST['input_city']]);
+        return view('tables.cities', [
+            'content' => City::with(['flightsAsArrival', 'flightsAsDeparture'])->get()->toArray()
+        ]);
+    }
+
+    public function delete()
+    {
+        if (isset($_REQUEST['deleteButton'])) {
+            $deleted = DB::delete('delete from users');
+        }
+
+        return view('tables.cities', [
+            'content' => City::with(['flightsAsArrival', 'flightsAsDeparture'])->get()->toArray()
         ]);
     }
 }
-

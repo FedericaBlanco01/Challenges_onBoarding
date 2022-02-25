@@ -20,8 +20,7 @@
 
         <tbody class="block md:table-row-group">
             @foreach ($content as $city)
-
-                <tr>
+                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-grey-500' : 'bg-violet-100' }}"> {{-- revisar --}}
                     @foreach ($city as $attribute => $data)
                         @if ($attribute == 'id' || $attribute == 'name')
                             <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
@@ -37,10 +36,16 @@
                         {{ count($city['flights_as_departure']) }}</td>
 
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
-                        <button
-                            class="bg-purple-400 hover:bg-purple-800 text-white py-1 px-2 border rounded-full">Edit</button>
-                        <button
-                            class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 border rounded-full">Delete</button>
+
+                        <form method="POST" action="{{route('buttonscity')}}">
+                            <button
+                                class="bg-purple-400 hover:bg-purple-800 text-white py-1 px-2 border rounded-full" name="editButton">
+                                Edit</button>
+                            <button
+                                class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 border rounded-full" name="deleteButton">
+                                Delete</button>
+                        </form>
+
                     </td>
                 </tr>
             @endforeach
@@ -48,13 +53,15 @@
     </table>
 
     {{-- -INPUT FIELD --}}
+    <form action="{{route('createcity')}}" method="POST">
+        @csrf
+        <div class="flex justify-center py-10">
+            <div class="mb-3 xl:w-96 ">
+                <label for="label_input_city" class="form-label inline-block mb-2 text-gray-700">Register a new
+                    city!</label>
 
-    <div class="flex justify-center py-10">
-        <div class="mb-3 xl:w-96 ">
-            <label for="label_input_city" class="form-label inline-block mb-2 text-gray-700">Register a new
-                city!</label>
-            <input type="text"
-                class="
+                <input type="text"
+                    class="
         form-control
         block
         w-full
@@ -70,7 +77,12 @@
         ease-in-out
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                id="input_city" placeholder="Here" />
+                    name="input_city" placeholder="Here" value="" />
+                <div class="inline-block py-5">
+                    <input value="Submit" type="submit" />
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
+
 </x-layout>
