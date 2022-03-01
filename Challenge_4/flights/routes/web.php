@@ -24,6 +24,7 @@ Route::get('/cities', [CityController::class, 'index']);
 Route::post('/cities', [CityController::class, 'store']);
 Route::get('/fetchcities', [CityController::class, 'fetch']);
 Route::delete('/deleteCity/{id}', [CityController::class, 'destroy']);
-Route::post('/editCity/{id}', [CityController::class, 'edit']);
+Route::get('/editCity/{id}', [CityController::class, 'edit']);
+Route::post('/editCity/{id}', [CityController::class, 'update']);
 
 Route::get('/airlines', [AirlineController::class, 'index']);

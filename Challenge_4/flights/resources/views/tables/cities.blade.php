@@ -85,7 +85,7 @@
                                 <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">' + item.flights_as_arrival_count + '</td>\
                                 <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">' + item.flights_as_departure_count + '</td>\
                                 <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">\
-                                <button type="button" value="' + item.id + '" class= "button_edit bg-purple-400 hover:bg-purple-800 text-white py-1 px-2 border rounded-full" > Edit </button>\
+                                <a href="/editCity/' + item.id + '" value="' + item.id + '" class= "button_edit bg-purple-400 hover:bg-purple-800 text-white py-1 px-2 border rounded-full" > Edit </a>\
                                 <button type="button" value="' + item.id + '" class=" button_delete bg-red-500 hover:bg-red-700 text-white py-1 px-2 border rounded-full">Delete</button>\
                                 </td>\
                         </tr>');
@@ -131,22 +131,6 @@
                             $('#successMessage').text(response.message);
                             fetchCity();
                         }
-                    }
-                })
-            });
-            var city_edit;
-            $(document).on('click', '.button_edit', function (e) {
-                e.preventDefault();
-                city_edit= {'id': $(this).val()};
-                $.ajax({
-                    type: "POST",
-                    url: "/editCity",
-                    data:city_edit,
-                    datatype: "json",
-                    success: function (response) {
-                        // console.log(response);
-                        // window.location.replace('/')
-                        fetchCity();
                     }
                 })
             });

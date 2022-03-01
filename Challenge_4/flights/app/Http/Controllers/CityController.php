@@ -25,7 +25,7 @@ class CityController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|unique|max:191']);
+        $request->validate(['name' => 'required|max:191']);
         $city = new City(['name'=>$request->input('name')]);
         $city->save();
 
@@ -47,13 +47,24 @@ class CityController extends Controller
         ]);
     }
 
-    public function edit(Request $request)
+    public function edit($id)
     {
+        $city = City::find($id);
+        return view('components.updateCity', [
+        'city' => $city]);
+    }
+    public function update(Request $request)
+    {
+        $request->validate(['name' => 'required|max:191']);
         $city = City::find($request->input('id'));
+        $city->name= $request->input('name');
+        $city->save();
 
         return response()->json([
             'status' => 200,
+            'message' => 'City updated successfully',
             'city'=> $city,
         ]);
+
     }
 }
