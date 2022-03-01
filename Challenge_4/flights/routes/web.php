@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CityController;
 use App\Http\Controllers\AirlineController;
-use App\Models\City;
+use App\Http\Controllers\CityController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +15,15 @@ use App\Models\City;
 |
 */
 
-Route::get('/', function () {return view('home');});
+Route::get('/', function () {
+    return view('home');
+});
 
 //CRUD CITIES
 Route::get('/cities', [CityController::class, 'index']);
 Route::post('/cities', [CityController::class, 'store']);
 Route::get('/fetchcities', [CityController::class, 'fetch']);
-
-Route::get('/click_delete/{id}', [CityController::class, 'delete']);
-Route::get('/click_update/{name}', function(City $city){return view('components.updateCity',[
-    'city'=>$city
-]);});
+Route::delete('/deleteCity/{id}', [CityController::class, 'destroy']);
+Route::post('/editCity/{id}', [CityController::class, 'edit']);
 
 Route::get('/airlines', [AirlineController::class, 'index']);
-

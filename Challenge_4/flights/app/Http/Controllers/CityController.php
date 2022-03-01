@@ -2,56 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\City;
-use App\Models\Flight;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
     public function index()
     {
         return view('tables.cities', [
-            'content' => City::with(['flightsAsArrival', 'flightsAsDeparture'])->get()->toArray()
+            'content' => City::with(['flightsAsArrival', 'flightsAsDeparture'])->get()->toArray(),
         ]);
     }
 
     public function fetch()
     {
-        $cities= City::withCount(['flightsAsArrival', 'flightsAsDeparture'])->get();
+        $cities = City::withCount(['flightsAsArrival', 'flightsAsDeparture'])->get();
 
         return response()->json([
-            'cities'=>$cities
+            'cities'=>$cities,
         ]);
     }
 
     public function store(Request $request)
     {
-
-        $request->validate(['name' => 'required|max:191']);
-        $city= new City(['name'=>$request->input('name')]);
+        $request->validate(['name' => 'required|unique|max:191']);
+        $city = new City(['name'=>$request->input('name')]);
         $city->save();
+
         return response()->json([
             'status' => 200,
             'message' => 'City added successfully',
-            'city'=> $city
+            'city'=> $city,
         ]);
-
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
+        $city = City::find($id);
+        $city->delete();
 
-        $deleted = DB::delete('delete from flights where arrival_city_id=?', [$id]);
-        $deleted = DB::delete('delete from flights where departure_city_id=?', [$id]);
-        $deleted = DB::delete('delete from cities where id=?', [$id]);
-
-        return redirect('/cities')->with('success', 'Data got deleted');
+        return response()->json([
+            'status' => 200,
+            'message' => 'City deleted successfully',
+        ]);
     }
 
-    public function edit(City $city)
+    public function edit(Request $request)
     {
-        return view('components.updateCity', compact('city'));
+        $city = City::find($request->input('id'));
+
+        return response()->json([
+            'status' => 200,
+            'city'=> $city,
+        ]);
     }
 }

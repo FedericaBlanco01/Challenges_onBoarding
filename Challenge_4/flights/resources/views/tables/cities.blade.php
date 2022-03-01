@@ -22,9 +22,7 @@
         </thead>
 
         <div id="successMessage" class="" role="alert"></div>
-        <tbody class="block md:table-row-group">
-
-        </tbody>
+        <tbody class="block md:table-row-group"></tbody>
     </table>
 
     {{-- -INPUT FIELD --}}
@@ -80,7 +78,6 @@
                     success: function (response) {
                         $('tbody').html("");
                         $.each(response.cities, function (key, item) {
-                            console.log(item);
                             $('tbody').append(
                                 '<tr>\
                                 <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">' + item.id + '</td>\
@@ -96,12 +93,24 @@
                     }
                 });
             }
-            $(document).on('click', '.button_edit', function (e) {
+
+            $(document).on('click', '.button_delete', function (e) {
                 e.preventDefault();
-                var city_id= $(this).val();
-                // console.log(city_id);
-                
+                let city_id= $(this).val();
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/deleteCity/"+city_id,
+                    success: function (response) {
+                        // console.log(response);
+                        $('#successMessage').html("");
+                        $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
+                        $('#successMessage').text(response.message);
+                        fetchCity();
+                    }
+                })
             });
+
             var data;
             $(document).on('click', '.add_city', function (e) {
                 e.preventDefault();
@@ -125,6 +134,23 @@
                     }
                 })
             });
+            var city_edit;
+            $(document).on('click', '.button_edit', function (e) {
+                e.preventDefault();
+                city_edit= {'id': $(this).val()};
+                $.ajax({
+                    type: "POST",
+                    url: "/editCity",
+                    data:city_edit,
+                    datatype: "json",
+                    success: function (response) {
+                        // console.log(response);
+                        // window.location.replace('/')
+                        fetchCity();
+                    }
+                })
+            });
+
         });
     </script>
 @endsection

@@ -8,22 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class City extends Model
 {
     use HasFactory;
-    protected $guarded=[];
 
-    static function existOrNull($newCity)
+    protected $guarded = [];
+
+    public static function existOrNull($newCity)
     {
-        $cities = City::all()->toArray();
+        $cities = self::all()->toArray();
         if (empty($newCity)) {
             return true;
         }
 
         foreach ($cities as $city) {
             foreach ($city as $attribute => $data) {
-                if ($attribute == "name" && $data == $newCity) {
+                if ($attribute == 'name' && $data == $newCity) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 

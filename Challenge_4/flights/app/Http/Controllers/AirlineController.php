@@ -11,7 +11,7 @@ class AirlineController extends Controller
     public function index()
     {
         return view('tables.airlines', [
-            'content' => Airline::with('flights')->get()->toArray()
+            'content' => Airline::with('flights')->get()->toArray(),
         ]);
     }
 
@@ -20,5 +20,4 @@ class AirlineController extends Controller
 
     //     DB::insert('insert into airlines (name, description) values (?, ?)', [$name, $description]);
     // }
-
 }
