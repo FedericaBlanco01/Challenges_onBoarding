@@ -31,7 +31,7 @@ class AirlineController extends Controller
                                 'description'=>$request->input('description')]);
         $airline->save();
 
-        return response()->json([
+        return respone()->json([
             'status' => 200,
             'message' => 'Airline added successfully!',
             'airline'=> $airline,
@@ -62,7 +62,7 @@ class AirlineController extends Controller
                             'description'=> 'required']);
         $airline= Airline::find($request->input('id'));
         $airline->name=$request->input('name');
-        $airline->description=$request->input('name');
+        $airline->description=$request->input('description');
         $airline->save();
 
         return response()->json([

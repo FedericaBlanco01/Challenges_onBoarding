@@ -13,33 +13,29 @@
         <nav class="flex items-center justify-between flex-wrap p-6 " aria-label="header">
             <div class="flex items-center flex-shrink-0 mr-6">
                 <a href="/">
-                    <img src="{{URL::asset('/image/logo.png')}}" alt="logo" width="100" height="100">
+                    <img src="{{URL::asset('/image/Fly_Me.png')}}" alt="logo" width="150" height="150">
                 </a>
             </div>
 
-            <div class="mr-6">
-                <a href="/">
-            <span class="font-semibold text-2xl tracking-tight text-black">Flight</span>
-                </a>
-            </div>
+{{--            <div class="mr-6">--}}
+{{--                <a href="/">--}}
+{{--            <span class="font-semibold text-xl tracking-tight text-black">Flight</span>--}}
+{{--                </a>--}}
+{{--            </div>--}}
 
             <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto ">
                 <div class="text-2sm lg:flex-grow ">
                     <a href="/cities"
-                        class="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
+                        class="block mt-4 lg:inline-block text-xl lg:mt-0 hover:text-white mr-4">
                         Cities
                     </a>
                     <a href="/airlines"
-                        class="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
+                        class="block mt-4 lg:inline-block text-xl lg:mt-0 hover:text-white mr-4">
                         Airlines
                     </a>
                     <a href="#responsive-header"
-                        class="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
+                        class="block mt-4 lg:inline-block text-xl lg:mt-0 hover:text-white mr-4">
                         Flights
-                    </a>
-                    <a href="#responsive-header"
-                        class="block mt-4 lg:inline-block lg:mt-0 hover:text-white">
-                        Next Flights
                     </a>
                 </div>
             </div>

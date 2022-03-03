@@ -75,9 +75,7 @@
 
 @section('scripts')
     <script>
-        console.log('entre a la func1');
         $(document).ready(function () {
-            console.log('entre a la func');
         var data;
         $(document).on('click', '.update_airline', function (e) {
             e.preventDefault();
@@ -88,7 +86,7 @@
             };
             console.log(data);
             fetch('http://127.0.0.1:8000/updateAirline',{
-                method: 'Patch',
+                method: 'PATCH',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'},
@@ -108,4 +106,5 @@
 
         });
         });
+    </script>
 @endsection
