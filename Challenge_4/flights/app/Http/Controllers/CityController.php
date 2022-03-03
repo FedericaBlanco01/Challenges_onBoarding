@@ -48,20 +48,21 @@ class CityController extends Controller
     public function edit($id)
     {
         $city = City::find($id);
+
         return view('components.updateCity', [
-        'city' => $city]);
+        'city' => $city, ]);
     }
+
     public function update(Request $request)
     {
         $request->validate(['name' => 'required|unique:cities|max:191']);
-        $city= City::find($request->input('id'));
-        $city->name=$request->input('name');
+        $city = City::find($request->input('id'));
+        $city->name = $request->input('name');
         $city->save();
 
         return response()->json([
             'status' => 200,
             'message' => 'City updated successfully',
         ]);
-
     }
 }

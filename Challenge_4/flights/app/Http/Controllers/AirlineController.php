@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Airline;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AirlineController extends Controller
 {
@@ -14,9 +13,11 @@ class AirlineController extends Controller
             'content' => Airline::with('flights')->get()->toArray(),
         ]);
     }
+
     public function fetch()
     {
-        $airlines= Airline::withCount('flights')->get();
+        $airlines = Airline::withCount('flights')->get();
+
         return response()->json([
             'airlines'=>$airlines,
         ]);
@@ -25,10 +26,10 @@ class AirlineController extends Controller
     public function store(Request $request)
     {
         $request->validate(['name' => 'required|unique:airlines|max:191',
-                            'description'=>'required']);
+                            'description'=>'required', ]);
 
         $airline = new Airline(['name'=>$request->input('name'),
-                                'description'=>$request->input('description')]);
+                                'description'=>$request->input('description'), ]);
         $airline->save();
 
         return respone()->json([
@@ -52,24 +53,23 @@ class AirlineController extends Controller
     public function edit($id)
     {
         $airline = Airline::find($id);
+
         return view('components.updateAirline', [
-            'airline' => $airline]);
+            'airline' => $airline, ]);
     }
 
     public function update(Request $request)
     {
         $request->validate(['name' => 'required|unique:cities|max:191',
-                            'description'=> 'required']);
-        $airline= Airline::find($request->input('id'));
-        $airline->name=$request->input('name');
-        $airline->description=$request->input('description');
+                            'description'=> 'required', ]);
+        $airline = Airline::find($request->input('id'));
+        $airline->name = $request->input('name');
+        $airline->description = $request->input('description');
         $airline->save();
 
         return response()->json([
             'status' => 200,
             'message' => 'Airline updated successfully',
         ]);
-
     }
-
 }
