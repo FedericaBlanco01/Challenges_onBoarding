@@ -25,6 +25,12 @@ Route::post('/cities', [CityController::class, 'store']);
 Route::get('/fetchcities', [CityController::class, 'fetch']);
 Route::delete('/deleteCity/{id}', [CityController::class, 'destroy']);
 Route::get('/editCity/{id}', [CityController::class, 'edit']);
-Route::post('/editCity/{id}', [CityController::class, 'update']);
+Route::patch('/editCity/{id}', [CityController::class, 'update']);
 
+//CRUD AIRLINES
 Route::get('/airlines', [AirlineController::class, 'index']);
+Route::get('/fetchairlines', [AirlineController::class, 'fetch']);
+Route::post('/airlines', [AirlineController::class, 'store']);
+Route::delete('/deleteAirline/{id}', [AirlineController::class, 'destroy']);
+Route::get('/editAirline/{id}', [AirlineController::class, 'edit']);
+Route::patch('/updateAirline', [AirlineController::class, 'update']);

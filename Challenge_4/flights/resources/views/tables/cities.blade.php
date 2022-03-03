@@ -24,7 +24,6 @@
         <div id="successMessage" class="" role="alert"></div>
         <tbody class="block md:table-row-group"></tbody>
     </table>
-
     {{-- -INPUT FIELD --}}
     <div class="flex justify-center py-10">
         <div class="mb-3 xl:w-96 ">
@@ -70,6 +69,7 @@
 
             });
             fetchCity();
+
             function fetchCity() {
                 $.ajax({
                     type: "GET",
@@ -96,13 +96,13 @@
 
             $(document).on('click', '.button_delete', function (e) {
                 e.preventDefault();
-                let city_id= $(this).val();
+                let city_id = $(this).val();
 
                 $.ajax({
                     type: "DELETE",
-                    url: "/deleteCity/"+city_id,
+                    url: "/deleteCity/" + city_id,
                     success: function (response) {
-                        // console.log(response);
+                        console.log(response);
                         $('#successMessage').html("");
                         $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
                         $('#successMessage').text(response.message);
@@ -121,16 +121,14 @@
                     data: data,
                     datatype: "json",
                     success: function (response) {
-                        console.log(response);
+                        $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
+                        $('#successMessage').text(response.message);
+                        fetchCity();
+                    },
+                    error: function (response) {
                         $('#successMessage').html("");
-                        if (response.status == 422) {
-                            $('#successMessage').addClass("bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative");
-                            $('#successMessage').text(response.message);
-                        } else {
-                            $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
-                            $('#successMessage').text(response.message);
-                            fetchCity();
-                        }
+                        $('#successMessage').addClass("bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative");
+                        $('#successMessage').text('The city name must be unique and not empty!');
                     }
                 })
             });

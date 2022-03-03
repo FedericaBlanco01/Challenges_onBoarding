@@ -9,9 +9,7 @@ class CityController extends Controller
 {
     public function index()
     {
-        return view('tables.cities', [
-            'content' => City::with(['flightsAsArrival', 'flightsAsDeparture'])->get()->toArray(),
-        ]);
+        return view('tables.cities');
     }
 
     public function fetch()
@@ -25,7 +23,7 @@ class CityController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|max:191']);
+        $request->validate(['name' => 'required|unique:cities|max:191']);
         $city = new City(['name'=>$request->input('name')]);
         $city->save();
 
@@ -55,15 +53,14 @@ class CityController extends Controller
     }
     public function update(Request $request)
     {
-        $request->validate(['name' => 'required|max:191']);
-        $city = City::find($request->input('id'));
-        $city->name= $request->input('name');
+        $request->validate(['name' => 'required|unique:cities|max:191']);
+        $city= City::find($request->input('id'));
+        $city->name=$request->input('name');
         $city->save();
 
         return response()->json([
             'status' => 200,
             'message' => 'City updated successfully',
-            'city'=> $city,
         ]);
 
     }

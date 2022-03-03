@@ -31,7 +31,7 @@
         ease-in-out
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                   name="name" placeholder="{{$city->name}}" value=""/>
+                                   name="name" value="{{$city->name}}" />
 
 
                             <div class="py-8">
@@ -68,21 +68,20 @@
                 id: $('#id_city').html(),
             };
             $.ajax({
-                type: "POST",
+                type: "PATCH",
                 url: "/editCity/"+data.id,
                 data: data,
                 datatype: "json",
                 success: function (response) {
-                    debugger;
                     console.log(response);
                     $('#successMessage').html("");
-                    if (response.status == 422) {
-                        $('#successMessage').addClass("bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative");
-                        $('#successMessage').text(response.message);
-                    } else {
-                        $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
-                        $('#successMessage').text(response.message);
-                    }
+                    $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
+                    $('#successMessage').text(response.message);
+                    },
+                error:  function(error){
+                    $('#successMessage').html("");
+                    $('#successMessage').addClass("bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative");
+                    $('#successMessage').text('The city name must be unique and not empty!');
                 }
             })
         });
