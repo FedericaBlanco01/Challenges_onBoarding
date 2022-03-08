@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CityController;
 use App\Http\Controllers\AirlineController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\FlightController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +16,25 @@ use App\Http\Controllers\AirlineController;
 |
 */
 
-Route::get('/', function () {return view('home');});
+Route::get('/', function () {
+    return view('home');
+});
 
+//CRUD CITIES
 Route::get('/cities', [CityController::class, 'index']);
+Route::post('/cities', [CityController::class, 'store']);
+Route::get('/fetchcities', [CityController::class, 'fetch']);
+Route::delete('/deleteCity/{id}', [CityController::class, 'destroy']);
+Route::get('/editCity/{id}', [CityController::class, 'edit']);
+Route::patch('/editCity/{id}', [CityController::class, 'update']);
 
+//CRUD AIRLINES
 Route::get('/airlines', [AirlineController::class, 'index']);
-Route::post('/deleteairline', [AirlineController::class, 'delete'])->name('deleteairline');
+Route::get('/fetchairlines', [AirlineController::class, 'fetch']);
+Route::post('/airlines', [AirlineController::class, 'store']);
+Route::delete('/deleteAirline/{id}', [AirlineController::class, 'destroy']);
+Route::get('/editAirline/{id}', [AirlineController::class, 'edit']);
+Route::patch('/updateAirline', [AirlineController::class, 'update']);
 
-Route::get('flights/{post:slug}', [FlightController::class, 'show']);
-
-Route::get('ajax-request', [AirlineController::class,'create']);
-Route::post('ajax-request', [AirlineController::class,'store']);
+//CRUD FLIGHTS
+Route::get('/flights', [FlightController::class, 'index']);

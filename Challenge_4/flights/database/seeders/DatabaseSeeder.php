@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Airline;
-use App\Models\Available;
 use App\Models\City;
 use App\Models\Flight;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

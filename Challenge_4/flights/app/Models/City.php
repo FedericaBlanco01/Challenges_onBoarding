@@ -9,6 +9,26 @@ class City extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
+    public static function existOrNull($newCity)
+    {
+        $cities = self::all()->toArray();
+        if (empty($newCity)) {
+            return true;
+        }
+
+        foreach ($cities as $city) {
+            foreach ($city as $attribute => $data) {
+                if ($attribute == 'name' && $data == $newCity) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function flightsAsDeparture()
     {
         return $this->hasMany(Flight::class, 'departure_city_id');

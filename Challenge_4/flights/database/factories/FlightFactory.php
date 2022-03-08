@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Airline;
 use App\Models\City;
-use App\Models\Available;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,7 +23,7 @@ class FlightFactory extends Factory
             'departure_city_id'=> City::factory(),
             'arrival_city_id'=> City::factory(),
             'departure_time'=> $this->faker->dateTime(),
-            'arrival_time'=> $this->faker->dateTime()
+            'arrival_time'=> $this->faker->dateTime(),
         ];
     }
 }
