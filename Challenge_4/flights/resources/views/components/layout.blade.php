@@ -33,7 +33,7 @@
                         class="block mt-4 lg:inline-block text-xl lg:mt-0 hover:text-white mr-4">
                         Airlines
                     </a>
-                    <a href="#responsive-header"
+                    <a href="/flights"
                         class="block mt-4 lg:inline-block text-xl lg:mt-0 hover:text-white mr-4">
                         Flights
                     </a>
