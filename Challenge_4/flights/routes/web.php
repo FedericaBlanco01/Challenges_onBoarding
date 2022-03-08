@@ -38,4 +38,3 @@ Route::patch('/updateAirline', [AirlineController::class, 'update']);
 
 //CRUD FLIGHTS
 Route::get('/flights', [FlightController::class, 'index']);
-
