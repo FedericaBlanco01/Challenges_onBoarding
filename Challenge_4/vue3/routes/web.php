@@ -37,7 +37,7 @@ Route::get('/editAirline/{id}', [AirlineController::class, 'edit']);
 Route::patch('/updateAirline', [AirlineController::class, 'update']);
 
 //CRUD FLIGHTS
-Route::get('/flights',[FlightController::class, 'show']);
+Route::get('/flights', [FlightController::class, 'show']);
 Route::get('/getflights', [FlightController::class, 'index']);
 Route::post('/addflight', [FlightController::class, 'store']);
 Route::delete('/deleteFlight/{id}', [FlightController::class, 'destroy']);
