@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Airline;
+use App\Models\City;
 use Illuminate\Http\Request;
 
 class AirlineController extends Controller
 {
+
     public function index()
     {
+        $click= false;
         return view('tables.airlines', [
             'content' => Airline::with('flights')->get()->toArray(),
+            'cities'=> City::all()
         ]);
     }
 
@@ -26,13 +30,16 @@ class AirlineController extends Controller
     public function store(Request $request)
     {
         $request->validate(['name' => 'required|unique:airlines|max:191',
-                            'description'=>'required', ]);
+                            'description'=>'required',
+                            'cities'=>'required']);
 
         $airline = new Airline(['name'=>$request->input('name'),
-                                'description'=>$request->input('description'), ]);
-        $airline->save();
+                                'description'=>$request->input('description') ]);
 
-        return respone()->json([
+        $airline->save();
+        $airline->availableCities()->sync($request->input('cities'));
+
+        return response()->json([
             'status' => 200,
             'message' => 'Airline added successfully!',
             'airline'=> $airline,

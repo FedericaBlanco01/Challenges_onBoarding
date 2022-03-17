@@ -75,21 +75,49 @@
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none "
                    name="input_city" placeholder="Airlines description" value=""/>
+            <div class="py-3">
+                {{--               select cities--}}
 
-            <div class="inline-block py-5">
-                <button type="button"
-                        class="add_airline transition-colors duration-300 bg-purple-400 hover:bg-purple-800 mt-4 lg:mt-0 lg:ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-8">
-                    Register
-                </button>
+                <select class="js-class block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none "
+                        multiple="multiple">
+                    @foreach($cities as $city)
+                        <option value="{{$city->id}}">{{$city->name}}</option>
+                    @endforeach
+                </select>
+
+
+                <div class="py-5">
+                    <button type="button"
+                            class="add_airline transition-colors duration-300 bg-purple-400 hover:bg-purple-800 mt-4 lg:mt-0 lg:ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-8">
+                        Register
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 
 @section('scripts')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
         $(document).ready(function () {
             fetchAirline();
+            $(".js-class").select2({ placeholder: "Available cities", allowClear: true});
 
             function fetchAirline() {
                 fetch('http://vue3.test/fetchairlines')
@@ -117,7 +145,8 @@
                 e.preventDefault();
                 data = {
                     name: $('.new_name_airline').val(),
-                    description: $('.new_description_airline').val()
+                    description: $('.new_description_airline').val(),
+                    cities:$('.js-class').val()
                 };
 
                 fetch('http://vue3.test/airlines', {
@@ -132,11 +161,11 @@
                     .then(res => res.json())
                     .then(function (data) {
                         $('#successMessage').html("");
-                        if(data.status == 200) {
+                        if (data.status == 200) {
                             $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
                             $('#successMessage').text(data.message);
                             fetchAirline();
-                        }else{
+                        } else {
                             $('#successMessage').addClass("bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative");
                             $('#successMessage').text(data.message);
                         }
@@ -146,12 +175,15 @@
             $(document).on('click', '.button_delete', function (e) {
                 e.preventDefault();
                 airline_id = $(this).val();
-                fetch('http://vue3.test/deleteAirline/'+ airline_id, {
+                fetch('http://vue3.test/deleteAirline/' + airline_id, {
                     method: 'DELETE',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'},
-                    body: null})
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: null
+                })
                     .then(res => res.json())
                     .then(function (data) {
                         $('#successMessage').html("");
@@ -163,3 +195,4 @@
         });
     </script>
 @endsection
+

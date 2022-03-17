@@ -41,5 +41,5 @@ Route::get('/flights', [FlightController::class, 'show']);
 Route::get('/getflights', [FlightController::class, 'index']);
 Route::post('/addflight', [FlightController::class, 'store']);
 Route::delete('/deleteFlight/{id}', [FlightController::class, 'destroy']);
-//Route::get('/editFlight/{id}', [FlightController::class, 'edit']);
-//Route::patch('/updateFlight', [FlightController::class, 'update']);
+Route::get('/getValuesFromFlight/{id}', [FlightController::class, 'getValuesFromFlight']);
+Route::patch('/updateflight', [FlightController::class, 'update']);

@@ -121,7 +121,6 @@ export default {
     methods:{
         getCities(){
             this.cities=this.selected_airline.available_cities;
-            console.log(this.cities);
         },
         createFlight(){
             let flight={
