@@ -31,8 +31,8 @@ class FlightController extends Controller
         $request->validate(['airline_id' => 'required',
             'departure_city_id' => 'required',
             'arrival_city_id' => 'required|different:departure_city_id',
-            'departure_time' => 'required|date|after:' . $now,
-            'arrival_time' => 'required|date|after:' . $departure_time,
+            'departure_time' => 'required|date|after:'.$now,
+            'arrival_time' => 'required|date|after:'.$departure_time,
         ]);
 
         $flight = new Flight([
@@ -76,8 +76,8 @@ class FlightController extends Controller
         $request->validate(['airline_id' => 'required',
             'departure_city_id' => 'required',
             'arrival_city_id' => 'required|different:departure_city_id',
-            'departure_time' => 'required|date|after:' . $now,
-            'arrival_time' => 'required|date|after:' . $departure_time,
+            'departure_time' => 'required|date|after:'.$now,
+            'arrival_time' => 'required|date|after:'.$departure_time,
         ]);
 
         $flight = Flight::find($request->input('flight_id'));
@@ -85,7 +85,7 @@ class FlightController extends Controller
         $flight->departure_city_id = $request->input('departure_city_id');
         $flight->arrival_city_id = $request->input('arrival_city_id');
         $flight->departure_time = $departure_time;
-        $flight->arrival_time =$request->input('arrival_time');
+        $flight->arrival_time = $request->input('arrival_time');
         $flight->save();
 
         return response()->json([

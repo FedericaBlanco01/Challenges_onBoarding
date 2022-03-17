@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class AirlineController extends Controller
 {
-
     public function index()
     {
-        $click= false;
+        $click = false;
+
         return view('tables.airlines', [
             'content' => Airline::with('flights')->get()->toArray(),
-            'cities'=> City::all()
+            'cities'=> City::all(),
         ]);
     }
 
@@ -31,10 +31,10 @@ class AirlineController extends Controller
     {
         $request->validate(['name' => 'required|unique:airlines|max:191',
                             'description'=>'required',
-                            'cities'=>'required']);
+                            'cities'=>'required', ]);
 
         $airline = new Airline(['name'=>$request->input('name'),
-                                'description'=>$request->input('description') ]);
+                                'description'=>$request->input('description'), ]);
 
         $airline->save();
         $airline->availableCities()->sync($request->input('cities'));
