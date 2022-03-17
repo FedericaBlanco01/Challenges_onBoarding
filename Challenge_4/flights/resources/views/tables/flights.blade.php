@@ -2,19 +2,9 @@
 @section('content')
     <body>
 
-    <div id="root">
-        <ul>
-            <li v-for="name in names">{{ name }}</li>
-        </ul>
+    <div id="app">
+<example-component></example-component>
     </div>
-
-    <script src="https://unpkg.com/vue@3.1.1/dist/vue.global.prod.js"></script>
-    <script>
-        new Vue({
-            el: '#root',
-            data: {names:['jose','pedro','fefi']}
-        })
-    </script>
-
+    <script src="{{ asset('js/app.js') }}"></script>
     </body>
 @endsection
