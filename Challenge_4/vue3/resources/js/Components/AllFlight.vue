@@ -3,7 +3,7 @@
 <div>
     <pop-up v-if="seen" @cancelDelete="hidePopUp" @sureDelete="deleteFlight" :id="idToDelete"></pop-up>
     <pop-up-edit v-if="seeEditWindow" :flight="flightToEdit" :airlines="airlines" @successfullyUpdated="hidePopUp"></pop-up-edit>
-
+<error-message-display v-if="show" :message="message" :title="title"></error-message-display>
     <table class="min-w-full border-collapse block md:table" id="TABLE">
         <caption></caption>
         <thead class="block md:table-header-group">
@@ -55,10 +55,11 @@
 import PopUp from "./PopUp";
 import CreateFlight from "./CreateFlight";
 import PopUpEdit from "./PopUpEdit";
+import ErrorMessageDisplay from "./ErrorMessageDisplay";
 
 export default{
     name:'AllFlight',
-    components: {PopUp, CreateFlight, PopUpEdit},
+    components: {PopUp, CreateFlight, PopUpEdit,ErrorMessageDisplay},
     props:{
         airlines:{
             type: Array,
@@ -74,6 +75,8 @@ export default{
             idToDelete:"",
             flightToEdit:null,
             message:"",
+            title:"",
+            show:false
         };
     },
     mounted() {
@@ -105,6 +108,9 @@ export default{
                     // this.flights.splice(i, 1);
                     // this.seen=false;
                     //MESSAGE
+                    this.show=true;
+                    this.message="You have successfully deleted a flight!"
+                    this.title="Success"
                     this.hidePopUp();
                 });
         },

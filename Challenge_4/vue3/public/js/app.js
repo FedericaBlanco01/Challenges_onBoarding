@@ -19376,6 +19376,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PopUp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PopUp */ "./resources/js/Components/PopUp.vue");
 /* harmony import */ var _CreateFlight__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateFlight */ "./resources/js/Components/CreateFlight.vue");
 /* harmony import */ var _PopUpEdit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PopUpEdit */ "./resources/js/Components/PopUpEdit.vue");
+/* harmony import */ var _ErrorMessageDisplay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ErrorMessageDisplay */ "./resources/js/Components/ErrorMessageDisplay.vue");
+
 
 
 
@@ -19384,7 +19386,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     PopUp: _PopUp__WEBPACK_IMPORTED_MODULE_0__["default"],
     CreateFlight: _CreateFlight__WEBPACK_IMPORTED_MODULE_1__["default"],
-    PopUpEdit: _PopUpEdit__WEBPACK_IMPORTED_MODULE_2__["default"]
+    PopUpEdit: _PopUpEdit__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ErrorMessageDisplay: _ErrorMessageDisplay__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   props: {
     airlines: {
@@ -19400,7 +19403,9 @@ __webpack_require__.r(__webpack_exports__);
       seemessage: false,
       idToDelete: "",
       flightToEdit: null,
-      message: ""
+      message: "",
+      title: "",
+      show: false
     };
   },
   mounted: function mounted() {
@@ -19431,6 +19436,10 @@ __webpack_require__.r(__webpack_exports__);
         // this.flights.splice(i, 1);
         // this.seen=false;
         //MESSAGE
+        _this2.show = true;
+        _this2.message = "You have successfully deleted a flight!";
+        _this2.title = "Success";
+
         _this2.hidePopUp();
       });
     },
@@ -19455,10 +19464,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.esm.js");
+/* harmony import */ var _ErrorMessageDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ErrorMessageDisplay */ "./resources/js/Components/ErrorMessageDisplay.vue");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    VueMultiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0__["default"]
+    VueMultiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ErrorMessageDisplay: _ErrorMessageDisplay__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
     airlines: {
@@ -19473,7 +19485,10 @@ __webpack_require__.r(__webpack_exports__);
       selected_departure_city: null,
       selected_arrival_city: null,
       departure_time: null,
-      arrival_time: null
+      arrival_time: null,
+      show: false,
+      message: "",
+      title: ""
     };
   },
   watch: {
@@ -19497,11 +19512,25 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post('/addflight', flight).then(function (response) {
         console.log(response.data.message);
+        _this.show = true;
+        _this.title = "Success";
+        _this.message = "Flight created successfully!";
 
-        _this.$emit('newflight');
-      })["catch"](function (error) {
-        console.log(error.response.data.message);
-        this.$emit('notcreate');
+        _this.$emit('newflight'); //clear fields
+
+
+        _this.selected_airline = "";
+        _this.selected_departure_city = "";
+        _this.selected_arrival_city = "";
+        _this.departure_time = "";
+        _this.arrival_time = "";
+      })["catch"](function (response) {
+        console.log(response.message);
+        _this.show = true;
+        _this.title = "Error";
+        _this.message = "Flight can't be created";
+
+        _this.$emit('notcreate');
       });
     }
   }
@@ -19547,7 +19576,10 @@ __webpack_require__.r(__webpack_exports__);
       selected_arrival_city: null,
       departure_time: null,
       arrival_time: null,
-      cities: []
+      cities: [],
+      showIt: false,
+      message: "",
+      title: ""
     };
   },
   mounted: function mounted() {
@@ -19595,11 +19627,14 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.patch('/updateflight', updateflight).then(function (response) {
         console.log(response.data.message);
-
-        _this2.$emit('done', response.data.message);
-      })["catch"](function (error) {
-        console.log(error.response.data.message);
-        this.$emit('done', error.response.data.message);
+        _this2.showIt = true;
+        _this2.title = "Success";
+        _this2.message = "Flight updated successfully!";
+      })["catch"](function (response) {
+        console.log(response.message);
+        _this2.showIt = true;
+        _this2.title = "Error";
+        _this2.message = "Can't update the flight!";
       });
     }
   }
@@ -19624,7 +19659,25 @@ __webpack_require__.r(__webpack_exports__);
     message: {
       type: String,
       "default": ""
+    },
+    title: {
+      type: String,
+      "default": ""
     }
+  },
+  data: function data() {
+    return {
+      messageText: "",
+      titleText: ""
+    };
+  },
+  mounted: function mounted() {
+    this.messageText = this.message;
+    this.titleText = this.title;
+  },
+  updated: function updated() {
+    this.messageText = this.message;
+    this.titleText = this.title;
   }
 });
 
@@ -19684,19 +19737,9 @@ __webpack_require__.r(__webpack_exports__);
       "default": 0
     }
   },
-  data: function data() {
-    return {
-      message: "",
-      see: false
-    };
-  },
   methods: {
     close: function close() {
       this.$emit('successfullyUpdated');
-    },
-    displayMessage: function displayMessage(message) {
-      this.see = true;
-      this.message = message;
     }
   }
 });
@@ -19778,6 +19821,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_pop_up_edit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("pop-up-edit");
 
+  var _component_error_message_display = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("error-message-display");
+
   var _component_create_flight = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("create-flight");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [$data.seen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_pop_up, {
@@ -19794,7 +19839,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSuccessfullyUpdated: $options.hidePopUp
   }, null, 8
   /* PROPS */
-  , ["flight", "airlines", "onSuccessfullyUpdated"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_1, [_hoisted_2, _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.flights, function (flight) {
+  , ["flight", "airlines", "onSuccessfullyUpdated"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.show ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_error_message_display, {
+    key: 2,
+    message: $data.message,
+    title: $data.title
+  }, null, 8
+  /* PROPS */
+  , ["message", "title"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_1, [_hoisted_2, _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.flights, function (flight) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: flight.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.id), 1
@@ -19859,8 +19910,11 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "mb-3 xl:w-96"
 };
+var _hoisted_3 = {
+  "class": "py-2"
+};
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   id: "successMessage",
   "class": "",
   role: "alert"
@@ -19868,15 +19922,12 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "form-label inline-block mb-2 text-gray-700"
 }, "Register a new flight!", -1
 /* HOISTED */
 );
 
-var _hoisted_5 = {
-  "class": "py-3"
-};
 var _hoisted_6 = {
   "class": "py-3"
 };
@@ -19886,30 +19937,41 @@ var _hoisted_7 = {
 var _hoisted_8 = {
   "class": "py-3"
 };
+var _hoisted_9 = {
+  "class": "py-3"
+};
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "text-sm inline-block mb-2 text-gray-500"
 }, "Select your departure time: ", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "py-3"
 };
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "text-sm inline-block mb-2 text-gray-500"
 }, "Select your arrival time: ", -1
 /* HOISTED */
 );
 
-var _hoisted_12 = {
+var _hoisted_13 = {
   "class": "py-8"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_error_message_display = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("error-message-display");
+
   var _component_VueMultiselect = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("VueMultiselect");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$data.show ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_error_message_display, {
+    key: 0,
+    message: $data.message,
+    title: $data.title
+  }, null, 8
+  /* PROPS */
+  , ["message", "title"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_4, _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
     modelValue: $data.selected_airline,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selected_airline = $event;
@@ -19926,7 +19988,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "track-by": "name"
   }, null, 8
   /* PROPS */
-  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
+  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
     modelValue: $data.selected_departure_city,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.selected_departure_city = $event;
@@ -19940,7 +20002,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "track-by": "name"
   }, null, 8
   /* PROPS */
-  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
+  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
     modelValue: $data.selected_arrival_city,
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.selected_arrival_city = $event;
@@ -19954,7 +20016,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "track-by": "name"
   }, null, 8
   /* PROPS */
-  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.departure_time = $event;
     }),
@@ -19962,7 +20024,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control departure_time_airline block w-full px-3 py-1.5 text-base font-normal text-gray-400 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.departure_time]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.departure_time]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "datetime-local",
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.arrival_time = $event;
@@ -19970,7 +20032,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control arrival_time_flight block w-full px-3 py-1.5 text-base font-normal text-gray-400 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.arrival_time]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.arrival_time]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "create_flight transition-colors duration-300 bg-purple-400 hover:bg-purple-800 mt-4 lg:mt-0 lg:ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-8",
     onClick: _cache[6] || (_cache[6] = function ($event) {
@@ -20033,9 +20095,17 @@ var _hoisted_10 = {
   "class": "py-8"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_error_message_display = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("error-message-display");
+
   var _component_VueMultiselect = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("VueMultiselect");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [$data.showIt ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_error_message_display, {
+    key: 0,
+    message: $data.message,
+    title: $data.title
+  }, null, 8
+  /* PROPS */
+  , ["message", "title"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
     modelValue: $data.selected_airline,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selected_airline = $event;
@@ -20117,35 +20187,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "p-2 bg-red-300 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex",
+  "class": "p-2 bg-purple-300 items-center text-gray-500 leading-none lg:rounded-full flex lg:inline-flex",
   role: "alert"
 };
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "flex rounded-full bg-red-400 uppercase px-2 py-1 text-xs font-bold mr-3"
-}, "Error", -1
-/* HOISTED */
-);
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_2 = {
+  "class": "flex rounded-full bg-purple-400 uppercase px-2 py-1 text-xs font-bold mr-3"
+};
+var _hoisted_3 = {
   "class": "font-semibold mr-2 text-left flex-auto"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("message")], -1
-/* HOISTED */
-);
-
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
-  "class": "fill-current opacity-75 h-4 w-4",
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 20 20"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-  d: "M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_5 = [_hoisted_2, _hoisted_3, _hoisted_4];
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, _hoisted_5);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.titleText), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.messageText), 1
+  /* TEXT */
+  )]);
 }
 
 /***/ }),
@@ -20292,22 +20348,14 @@ var _hoisted_12 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_edit_flight = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("edit-flight");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        message here"), $data.see ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
-    key: 0,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.message = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.message]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_edit_flight, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_edit_flight, {
     flight: $props.flight,
-    airlines: $props.airlines,
-    onDone: $options.displayMessage
+    airlines: $props.airlines
   }, null, 8
   /* PROPS */
-  , ["flight", "airlines", "onDone"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  , ["flight", "airlines"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    onClick: _cache[1] || (_cache[1] = function () {
+    onClick: _cache[0] || (_cache[0] = function () {
       return $options.close && $options.close.apply($options, arguments);
     }),
     "class": "not-delete mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"

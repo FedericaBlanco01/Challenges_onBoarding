@@ -1,5 +1,7 @@
 <template>
     <div>
+        <error-message-display v-if="showIt" :message="message" :title="title"></error-message-display>
+
         <div class="flex justify-center py-10 ">
             <div class="mb-3 xl:w-96">
                 <div class="py-3">
@@ -116,7 +118,10 @@ export default {
             selected_arrival_city: null,
             departure_time: null,
             arrival_time: null,
-            cities: []
+            cities: [],
+            showIt:false,
+            message:"",
+            title:""
         };
     },
     mounted() {
@@ -165,11 +170,17 @@ export default {
                 .patch('/updateflight',updateflight)
                 .then(response => {
                     console.log(response.data.message);
-                    this.$emit('done',response.data.message);
+                    this.showIt=true;
+                    this.title="Success"
+                    this.message="Flight updated successfully!";
+
+
                 })
-                .catch(function (error) {
-                    console.log(error.response.data.message);
-                    this.$emit('done',error.response.data.message);
+                .catch(response =>  {
+                    console.log(response.message);
+                    this.showIt=true;
+                    this.title="Error"
+                    this.message="Can't update the flight!";
 
                 });
         },
