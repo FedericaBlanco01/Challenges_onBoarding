@@ -17,7 +17,7 @@ class FlightControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $flights = Flight::factory()->create([
-            'id' => 1,]);
+            'id' => 1, ]);
         $route = '/deleteFlight/'.$flights->id;
         $response = $this->call('DELETE', $route);
         $this->assertDatabaseMissing('flights', [
