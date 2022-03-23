@@ -16,10 +16,13 @@ class FlightControllerTest extends TestCase
     public function test_delete_flight_from_db()
     {
         $this->withoutExceptionHandling();
-        $flights = Flight::factory()->create();
+        $flights = Flight::factory()->create([
+            'id' => 1,]);
         $route = '/deleteFlight/'.$flights->id;
         $response = $this->call('DELETE', $route);
-        $this->assertEquals(200, $response->status());
+        $this->assertDatabaseMissing('flights', [
+            'airline_id' => 1,
+        ]);
     }
 
     public function test_existing_flight_update()
