@@ -12,11 +12,11 @@ class FlightController extends Controller
     public function show()
     {
         $airlines = Airline::with('availableCities')->get()->toArray();
-        $cities= City::all()->toArray();
+        $cities = City::all()->toArray();
 
         return view('tables.flights', [
-            'airlines' => $airlines ,
-            'cities'=> $cities ]);
+            'airlines' => $airlines,
+            'cities'=> $cities, ]);
     }
 
     public function index(Request $request)
@@ -24,14 +24,14 @@ class FlightController extends Controller
         $flights = Flight::with(['airline', 'departure_city', 'arrival_city']);
         $city = json_decode($request->get('city'));
         $airline = json_decode($request->get('airline'));
-        if(isset($city)){
+        if (isset($city)) {
             $flights->where('departure_city_id', $city->id)->orWhere('arrival_city_id', $city->id);
         }
-        if(isset($airline)){
+        if (isset($airline)) {
             $flights->where('airline_id', $airline->id);
         }
-        return response()->json(['flights' => $flights->get()]);
 
+        return response()->json(['flights' => $flights->get()]);
     }
 
     public function store(Request $request)
