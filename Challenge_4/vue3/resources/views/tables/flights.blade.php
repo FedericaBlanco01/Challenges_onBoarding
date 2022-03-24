@@ -1,6 +1,6 @@
 @extends('components.layout')
 @section('content')
-      <all-flight :airlines='@json($airlines)' ></all-flight>
+      <all-flight :airlines='@json($airlines)' :cities='@json($cities)'></all-flight>
 
 @endsection
 

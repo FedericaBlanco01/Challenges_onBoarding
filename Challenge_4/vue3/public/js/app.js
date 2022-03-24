@@ -19377,6 +19377,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CreateFlight__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateFlight */ "./resources/js/Components/CreateFlight.vue");
 /* harmony import */ var _PopUpEdit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PopUpEdit */ "./resources/js/Components/PopUpEdit.vue");
 /* harmony import */ var _ErrorMessageDisplay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ErrorMessageDisplay */ "./resources/js/Components/ErrorMessageDisplay.vue");
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.esm.js");
+
 
 
 
@@ -19387,10 +19389,15 @@ __webpack_require__.r(__webpack_exports__);
     PopUp: _PopUp__WEBPACK_IMPORTED_MODULE_0__["default"],
     CreateFlight: _CreateFlight__WEBPACK_IMPORTED_MODULE_1__["default"],
     PopUpEdit: _PopUpEdit__WEBPACK_IMPORTED_MODULE_2__["default"],
-    ErrorMessageDisplay: _ErrorMessageDisplay__WEBPACK_IMPORTED_MODULE_3__["default"]
+    ErrorMessageDisplay: _ErrorMessageDisplay__WEBPACK_IMPORTED_MODULE_3__["default"],
+    VueMultiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
     airlines: {
+      type: Array,
+      "default": []
+    },
+    cities: {
       type: Array,
       "default": []
     }
@@ -19405,18 +19412,32 @@ __webpack_require__.r(__webpack_exports__);
       flightToEdit: null,
       message: "",
       title: "",
-      show: false
+      show: false,
+      selected_airline_filter: null,
+      selected_city_filter: null
     };
   },
   mounted: function mounted() {
     this.display();
   },
   methods: {
-    display: function display() {
+    filter_table: function filter_table() {
       var _this = this;
 
-      axios.get('/getflights').then(function (response) {
+      axios.get('/getflights', {
+        params: {
+          city: this.selected_city_filter,
+          airline: this.selected_airline_filter
+        }
+      }).then(function (response) {
         _this.flights = response.data.flights;
+      });
+    },
+    display: function display() {
+      var _this2 = this;
+
+      axios.get('/getflights').then(function (response) {
+        _this2.flights = response.data.flights;
       });
     },
     callPopUp: function callPopUp(id) {
@@ -19429,18 +19450,18 @@ __webpack_require__.r(__webpack_exports__);
       this.display();
     },
     deleteFlight: function deleteFlight(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       axios["delete"]('http://vue3.test/deleteFlight/' + id).then(function (response) {
         // let i = this.flights.map(data => data.id).indexOf(id);
         // this.flights.splice(i, 1);
         // this.seen=false;
         //MESSAGE
-        _this2.show = true;
-        _this2.message = "You have successfully deleted a flight!";
-        _this2.title = "Success";
+        _this3.show = true;
+        _this3.message = "You have successfully deleted a flight!";
+        _this3.title = "Success";
 
-        _this2.hidePopUp();
+        _this3.hidePopUp();
       });
     },
     callPopUpEdit: function callPopUpEdit(flight) {
@@ -19760,15 +19781,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
+  "class": "flex justify-center mb-3 w-1/3 inline-block"
+};
+var _hoisted_2 = {
   "class": "min-w-full border-collapse block md:table",
   id: "TABLE"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("caption", null, null, -1
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("caption", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
   "class": "block md:table-header-group"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
   "class": "border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative"
@@ -19790,11 +19814,8 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_4 = {
-  "class": "block md:table-row-group"
-};
 var _hoisted_5 = {
-  "class": "p-2 md:border md:border-grey-500 text-left block md:table-cell"
+  "class": "block md:table-row-group"
 };
 var _hoisted_6 = {
   "class": "p-2 md:border md:border-grey-500 text-left block md:table-cell"
@@ -19814,14 +19835,19 @@ var _hoisted_10 = {
 var _hoisted_11 = {
   "class": "p-2 md:border md:border-grey-500 text-left block md:table-cell"
 };
-var _hoisted_12 = ["onClick"];
+var _hoisted_12 = {
+  "class": "p-2 md:border md:border-grey-500 text-left block md:table-cell"
+};
 var _hoisted_13 = ["onClick"];
+var _hoisted_14 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_pop_up = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("pop-up");
 
   var _component_pop_up_edit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("pop-up-edit");
 
   var _component_error_message_display = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("error-message-display");
+
+  var _component_VueMultiselect = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("VueMultiselect");
 
   var _component_create_flight = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("create-flight");
 
@@ -19845,22 +19871,56 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: $data.title
   }, null, 8
   /* PROPS */
-  , ["message", "title"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_1, [_hoisted_2, _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.flights, function (flight) {
+  , ["message", "title"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
+    modelValue: $data.selected_city_filter,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.selected_city_filter = $event;
+    }),
+    options: $props.cities,
+    "close-on-select": true,
+    "clear-on-select": false,
+    value: "id",
+    placeholder: "Filter search by City",
+    label: "name",
+    "track-by": "name"
+  }, null, 8
+  /* PROPS */
+  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueMultiselect, {
+    modelValue: $data.selected_airline_filter,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.selected_airline_filter = $event;
+    }),
+    options: $props.airlines,
+    "close-on-select": true,
+    "clear-on-select": false,
+    value: "id",
+    placeholder: "Filter search by Airline",
+    label: "name",
+    "track-by": "name"
+  }, null, 8
+  /* PROPS */
+  , ["modelValue", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "hover:text-purple-800 text-xs font-bold text-purple-400",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.filter_table();
+    })
+  }, " SEARCH ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_2, [_hoisted_3, _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.flights, function (flight) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: flight.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.id), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.id), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.airline.name), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.airline.name), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.departure_city.name), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.departure_city.name), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.arrival_city.name), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.arrival_city.name), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.departure_time), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.departure_time), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.arrival_time), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(flight.arrival_time), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       value: "{{flight.id}}",
       onClick: function onClick($event) {
@@ -19869,7 +19929,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "button_edit bg-purple-400 hover:bg-purple-800 text-white py-1 px-2 border rounded-full"
     }, "Edit", 8
     /* PROPS */
-    , _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    , _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       value: "{{flight.id}}",
       onClick: function onClick($event) {
@@ -19878,7 +19938,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "button_delete bg-red-500 hover:bg-red-700 text-white py-1 px-2 border rounded-full"
     }, "Delete", 8
     /* PROPS */
-    , _hoisted_13)])])]);
+    , _hoisted_14)])])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_create_flight, {
