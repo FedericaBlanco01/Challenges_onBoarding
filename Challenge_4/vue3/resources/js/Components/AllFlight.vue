@@ -4,6 +4,32 @@
     <pop-up v-if="seen" @cancelDelete="hidePopUp" @sureDelete="deleteFlight" :id="idToDelete"></pop-up>
     <pop-up-edit v-if="seeEditWindow" :flight="flightToEdit" :airlines="airlines" @successfullyUpdated="hidePopUp"></pop-up-edit>
 <error-message-display v-if="show" :message="message" :title="title"></error-message-display>
+    <div class="flex justify-center mb-3 w-1/3 inline-block">
+    <VueMultiselect
+        v-model="selected_city_filter"
+        :options="cities"
+        :close-on-select="true"
+        :clear-on-select="false"
+        value="id"
+        placeholder="Filter search by City"
+        label="name"
+        track-by="name"/>
+
+        <VueMultiselect
+            v-model="selected_airline_filter"
+            :options="airlines"
+            :close-on-select="true"
+            :clear-on-select="false"
+            value="id"
+            placeholder="Filter search by Airline"
+            label="name"
+            track-by="name"/>
+        <button type="button"
+                class=" hover:text-purple-800 text-xs font-bold text-purple-400"
+                @click="filter_table()">
+            SEARCH
+        </button>
+    </div>
     <table class="min-w-full border-collapse block md:table" id="TABLE">
         <caption></caption>
         <thead class="block md:table-header-group">
@@ -56,15 +82,20 @@ import PopUp from "./PopUp";
 import CreateFlight from "./CreateFlight";
 import PopUpEdit from "./PopUpEdit";
 import ErrorMessageDisplay from "./ErrorMessageDisplay";
+import VueMultiselect from "vue-multiselect";
 
 export default{
     name:'AllFlight',
-    components: {PopUp, CreateFlight, PopUpEdit,ErrorMessageDisplay},
+    components: {PopUp, CreateFlight, PopUpEdit,ErrorMessageDisplay,VueMultiselect},
     props:{
         airlines:{
             type: Array,
             default: []
         },
+        cities:{
+            type: Array,
+            default: []
+        }
     },
     data() {
         return {
@@ -76,13 +107,25 @@ export default{
             flightToEdit:null,
             message:"",
             title:"",
-            show:false
+            show:false,
+            selected_airline_filter:null,
+            selected_city_filter:null
         };
     },
     mounted() {
        this.display();
     },
     methods: {
+        filter_table(){
+            axios
+                .get('/getflights', {params:{
+                    city: this.selected_city_filter ,
+                    airline: this.selected_airline_filter
+                }})
+                .then(response => {
+                    this.flights = response.data.flights;
+                });
+        },
         display(){
             axios
                 .get('/getflights')
