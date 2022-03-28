@@ -19,31 +19,30 @@ class AirlineController extends Controller
     public function fetch(Request $request)
     {
         logger($request);
-        $count=$request->number;
-        if(isset($count)){
+        $count = $request->number;
+        if (isset($count)) {
             logger($count);
-            $count=$request->number;
-            $airlines=Airline::withCount('flights')->get()->toArray();
-            $return=[];
-            foreach ($airlines as $airline){
+            $count = $request->number;
+            $airlines = Airline::withCount('flights')->get()->toArray();
+            $return = [];
+            foreach ($airlines as $airline) {
                 logger($airline['flight_count']);
-                if($airline->flight_count >= $count){
+                if ($airline->flight_count >= $count) {
                     logger('if');
-                    array_push($return,$airline);
+                    array_push($return, $airline);
                 }
             }
 
             return response()->json([
                 'airlines'=>$return,
             ]);
-        }else{
+        } else {
             return response()->json([
                 'airlines'=>Airline::withCount('flights')->get(),
             ]);
         }
 //        $airlines = Airline::withCount('flights')->get();
 //        logger($airlines);
-
     }
 
     public function store(Request $request)
