@@ -1,5 +1,29 @@
 @extends('components.layout')
 @section('content')
+    <div class=" justify-center w-1/3 inline-block">
+        <div class="mb-3 xl:w-96 ">
+            <input type="text"  value="" class="formSelectFlights appearance-none
+      block
+      w-full
+      px-3
+      py-1.5
+      text-base
+      font-normal
+      text-gray-700
+      bg-white bg-clip-padding bg-no-repeat
+      border border-solid border-gray-300
+      rounded
+      transition
+      ease-in-out
+      m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                   placeholder="Search by number of flights operated" aria-label="Default select">
+            <button type="button"
+                    class=" buttonSearch hover:text-purple-800 text-xs font-bold text-purple-400">
+                SEARCH
+            </button>
+        </div>
+    </div>
 
     <table class="min-w-full border-collapse block md:table">
         <caption></caption>
@@ -116,11 +140,14 @@
 
     <script>
         $(document).ready(function () {
-            fetchAirline();
+            fetchAirline("");
             $(".js-class").select2({ placeholder: "Available cities", allowClear: true});
 
-            function fetchAirline() {
-                fetch('http://vue3.test/fetchairlines')
+            function fetchAirline(numberOperations) {
+                let url = new URL('http://vue3.test/fetchairlines')
+                url.searchParams.set('number', numberOperations);
+
+                fetch(url)
                     .then(res => res.json())
                     .then(function (data) {
                         $('tbody').html("");
@@ -139,6 +166,14 @@
                         })
                     })
             }
+
+            $(document).on('click', '.buttonSearch', function (e){
+                e.preventDefault();
+                data = {
+                    number: $('.formSelectFlights').val(),
+                };
+                fetchAirline(data);
+            });
 
             var data;
             $(document).on('click', '.add_airline', function (e) {
@@ -165,6 +200,7 @@
                             $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
                             $('#successMessage').text(data.message);
                             fetchAirline();
+                            //pasar params
                         } else {
                             $('#successMessage').addClass("bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative");
                             $('#successMessage').text(data.message);
@@ -190,6 +226,7 @@
                         $('#successMessage').addClass("bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative");
                         $('#successMessage').text(data.message);
                         fetchAirline();
+                    //    pasar params
                     })
             });
         });

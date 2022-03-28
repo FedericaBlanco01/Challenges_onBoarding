@@ -19,13 +19,6 @@
                 <img src="{{URL::asset('/image/Fly_Me.png')}}" alt="logo" width="150" height="150">
             </a>
         </div>
-
-        {{--            <div class="mr-6">--}}
-        {{--                <a href="/">--}}
-        {{--            <span class="font-semibold text-xl tracking-tight text-black">Flight</span>--}}
-        {{--                </a>--}}
-        {{--            </div>--}}
-
         <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto ">
             <div class="text-2sm lg:flex-grow ">
                 <a href="/cities"
@@ -44,7 +37,7 @@
         </div>
     </nav>
 
-    <div id="app">
+    <div id="app" class="px-5">
 
         @yield('content')
     </div>

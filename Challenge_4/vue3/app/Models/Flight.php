@@ -11,12 +11,6 @@ class Flight extends Model
 
     protected $guarded = [];
 
-//    public function scopeFilter($query, array $filters){
-//        $query->when($filters['city'] ??false,fn($query, $city)=>
-//        $query->where(['departure_city_id','arrival_city_id'],$city->id)
-//        );
-//    }
-
     public function airline()
     {
         return $this->belongsTo(Airline::class, 'airline_id');
