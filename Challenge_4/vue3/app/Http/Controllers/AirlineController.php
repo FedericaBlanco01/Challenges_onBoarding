@@ -10,21 +10,40 @@ class AirlineController extends Controller
 {
     public function index()
     {
-        $click = false;
-
         return view('tables.airlines', [
             'content' => Airline::with('flights')->get()->toArray(),
             'cities'=> City::all(),
         ]);
     }
 
-    public function fetch()
+    public function fetch(Request $request)
     {
-        $airlines = Airline::withCount('flights')->get();
+        logger($request);
+        $count=$request->number;
+        if(isset($count)){
+            logger($count);
+            $count=$request->number;
+            $airlines=Airline::withCount('flights')->get()->toArray();
+            $return=[];
+            foreach ($airlines as $airline){
+                logger($airline['flight_count']);
+                if($airline->flight_count >= $count){
+                    logger('if');
+                    array_push($return,$airline);
+                }
+            }
 
-        return response()->json([
-            'airlines'=>$airlines,
-        ]);
+            return response()->json([
+                'airlines'=>$return,
+            ]);
+        }else{
+            return response()->json([
+                'airlines'=>Airline::withCount('flights')->get(),
+            ]);
+        }
+//        $airlines = Airline::withCount('flights')->get();
+//        logger($airlines);
+
     }
 
     public function store(Request $request)
